@@ -58,7 +58,8 @@ jobs:
             
       - name: Build CEF wrapper
         run: |
-          cmake -S .\src\cef -B .\src\cef\build
+          mkdir src\cef\build
+          cmake -S .\src\cef -B .\src\cef\build -DPROJECT_ARCH=x86_64 -DCMAKE_BUILD_TYPE=Release -DUSE_SANDBOX=off
           msbuild .\src\cef\build\libcef_dll_wrapper\libcef_dll_wrapper.vcxproj -t:rebuild -property:Configuration=Release
           
       - name: Copy CEF lib to target directory
