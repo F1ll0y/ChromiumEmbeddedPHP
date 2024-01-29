@@ -1,5 +1,9 @@
 name: Windows
 on: [push, pull_request, workflow_dispatch]
+
+env:
+  php_version: 8.3.2-Win32-vs16-x64
+  cef_version: 121.2.14%2Bga44b59f%2Bchromium-121.0.6167.75_windows64_beta
 jobs:
   build:
     defaults:
@@ -9,24 +13,29 @@ jobs:
       matrix:
           version: ["8.3"]
           arch: [x64]
-          ts: [ts]
     if: ${{ success() || failure() }}
     runs-on: windows-latest
     name: Windows, PHP v${{matrix.version}}, chrome embedded
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Fetch PHP
         run: |
-          curl -LO https://windows.php.net/downloads/releases/php-8.3.2-Win32-vs16-x64.zip 
-          7z x php-8.3.2-Win32-vs16-x64.zip -osrc/php/
-      - name: Enable Developer Command Prompt
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: ${{matrix.arch}}
-          toolset: ${{steps.setup-php.outputs.toolset}}
+          curl -LO https://windows.php.net/downloads/releases/php-${{ env.php_version }}.zip 
+          7z x php-${{ env.php_version }}.zip -osrc/php/
+      - name: Fetch Chromium Embedded Framework (CEF)
+        run: |
+          curl -LO https://cef-builds.spotifycdn.com/cef_binary_${{ env.cef_version }}.tar.bz2
+          7z x php-${{ env.cef_version }}.tar.bz2 -osrc/cef/
+      - name: Add msbuild to PATH
+          uses: microsoft/setup-msbuild@v1.1
+          with:
+            vs-version: '[16.4,16.5)'
+      - name: Build app for release
+          run: |
+            msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -verbosity:diag -property:Configuration=Release
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: php-chromium-embedded-${{matrix.version}}
-          path: src
+          path: ./
