@@ -26,7 +26,7 @@ jobs:
           curl -LO https://windows.php.net/downloads/releases/php-${{ env.php_version }}.zip 
           dir
           7z x php-${{ env.php_version }}.zip -osrc/php/
-          dir src/php/
+          dir src\php\
           
       - name: Fetch Chromium Embedded Framework (CEF)
         run: |
@@ -34,7 +34,7 @@ jobs:
           curl -LO https://cef-builds.spotifycdn.com/cef_binary_${{ env.cef_version }}.tar.bz2
           dir
           7z x cef_binary_${{ env.cef_version }}.tar.bz2 -osrc/cef/
-          dir src/cef/
+          dir src\cef\
           
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
