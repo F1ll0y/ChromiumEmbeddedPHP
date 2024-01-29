@@ -67,6 +67,17 @@ jobs:
           mkdir .\src\lib\Release
           mkdir .\src\Release
           copy .\src\cef\Release\libcef.dll .\src\Release\
+          copy .\src\cef\Release\chrome_elf.dll .\src\Release\
+          copy .\src\cef\Release\d3dcompiler_47.dll .\src\Release\
+          copy .\src\cef\Release\libEGL.dll .\src\Release\
+          copy .\src\cef\Release\libGLESv2.dll .\src\Release\
+          copy .\src\cef\Release\snapshot_blob.bin .\src\Release\
+          copy .\src\cef\Release\v8_context_snapshot.bin .\src\Release\
+          copy .\src\cef\Release\vk_swiftshader.dll .\src\Release\
+          copy .\src\cef\Release\vk_swiftshader_icd.json .\src\Release\
+          copy .\src\cef\Release\vulkan-1.dll .\src\Release\
+          xcopy /E /H /Y .\src\cef\Resources\* .\src\Release\
+          
           copy .\src\cef\Release\libcef.lib .\src\lib\Release\
           
       - name: Copy CEF wrapper to target directory
@@ -77,9 +88,10 @@ jobs:
         continue-on-error: true
         run: |
           msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release -property:Platform=${{matrix.arch}}
-      
+          copy .\src\x64\Release\phpdesktop-chrome.exe .\src\Release\
+          
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: php-chromium-embedded-${{matrix.version}}
-          path: ./src
+          path: ./src/Release
