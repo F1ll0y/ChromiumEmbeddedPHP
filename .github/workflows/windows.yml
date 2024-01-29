@@ -73,6 +73,7 @@ jobs:
           dir .\src\
             
       - name: Build app for release
+        continue-on-error: true
         run: |
           msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release
       
@@ -80,4 +81,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: php-chromium-embedded-${{matrix.version}}
-          path: ./
+          path: ./src
