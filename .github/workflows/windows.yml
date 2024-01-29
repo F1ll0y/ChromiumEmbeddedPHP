@@ -1,0 +1,32 @@
+name: Windows
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build:
+    defaults:
+      run:
+        shell: cmd
+    strategy:
+      matrix:
+          version: ["8.3"]
+          arch: [x64]
+          ts: [ts]
+    if: ${{ success() || failure() }}
+    runs-on: windows-latest
+    name: Windows, PHP v${{matrix.version}}, chrome embedded
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Fetch PHP
+        run: |
+          curl -LO https://windows.php.net/downloads/releases/php-8.3.2-Win32-vs16-x64.zip 
+          7z x php-8.3.2-Win32-vs16-x64.zip -osrc/php/
+      - name: Enable Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.arch}}
+          toolset: ${{steps.setup-php.outputs.toolset}}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: php-chromium-embedded-${{matrix.version}}
+          path: src
