@@ -78,7 +78,7 @@ jobs:
       - name: Build app for release
         continue-on-error: true
         run: |
-          msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release
+          msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release -property:Platform=x64
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
