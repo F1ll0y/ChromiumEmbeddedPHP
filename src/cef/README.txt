@@ -1,15 +1,15 @@
 Chromium Embedded Framework (CEF) Standard Binary Distribution for Windows
 -------------------------------------------------------------------------------
 
-Date:             March 05, 2022
+Date:             January 20, 2024
 
-CEF Version:      99.2.9+gf426765+chromium-99.0.4844.51
+CEF Version:      121.2.14+ga44b59f+chromium-121.0.6167.75
 CEF URL:          https://bitbucket.org/chromiumembedded/cef.git
-                  @f42676506b8062218bef80deccd403c47a409333
+                  @a44b59f98dce9cd23eed0ac4d4b5b6fc8253ea8d
 
-Chromium Version: 99.0.4844.51
+Chromium Version: 121.0.6167.75
 Chromium URL:     https://chromium.googlesource.com/chromium/src.git
-                  @76f0c6da1542cef970137d8fd354b25283390554
+                  @c3d05be857d4a7fb8de7443128bc234139b24c36
 
 This distribution contains all components necessary to build and distribute an
 application using CEF on the Windows platform. Please see the LICENSING
@@ -142,13 +142,6 @@ run but any related functionality may become broken or disabled.
   WebGL using SwiftShader's Vulkan library as ANGLE's Vulkan backend. Without
   these files the aforementioned capabilities may fail when GPU acceleration is
   disabled or unavailable.
-
-* SwiftShader support
-  * swiftshader/libEGL.dll
-  * swiftshader/libGLESv2.dll
-  Deprecated support for software rendering using SwiftShader's GL libraries.
-  Used as an alternative to SwANGLE when the `--use-gl=swiftshader-webgl`
-  command-line flag is specified.
 
 
 LICENSING
