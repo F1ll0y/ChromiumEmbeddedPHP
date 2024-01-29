@@ -15,7 +15,7 @@ jobs:
           arch: [x64]
     if: ${{ success() || failure() }}
     runs-on: windows-latest
-    name: Windows, PHP v${{matrix.version}}, chrome embedded
+    name: Win ${{matrix.arch}} PHP v${{matrix.version}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,21 +64,19 @@ jobs:
           
       - name: Copy CEF lib to target directory
         run: |
-          dir .\src\
-          copy .\src\cef\Release\libcef.dll .\src\
-          copy .\src\cef\Release\libcef.lib .\src\
-          dir .\src\
+          mkdir .\src\lib\Release
+          mkdir .\src\Release
+          copy .\src\cef\Release\libcef.dll .\src\Release\
+          copy .\src\cef\Release\libcef.lib .\src\lib\Release\
           
       - name: Copy CEF wrapper to target directory
         run: |
-          dir .\src\
-          copy .\src\cef\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib .\src\
-          dir .\src\
+          copy .\src\cef\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib .\src\lib\Release\
             
       - name: Build app for release
         continue-on-error: true
         run: |
-          msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release -property:Platform=x64
+          msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release -property:Platform=${{matrix.arch}}
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
