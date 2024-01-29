@@ -39,13 +39,13 @@ jobs:
         run: |
           dir
           dir src\cef\
-          7z x cef.tar.bz2 -osrc/cef
+          7z x cef.tar.bz2 -o./
+          dir
+          7z x cef.tar -osrc/cef
           dir src\cef\
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.3.2
-        with:
-          vs-version: '[16.4,16.5)'
             
       - name: Build app for release
         run: |
