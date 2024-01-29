@@ -44,12 +44,12 @@ jobs:
           7z x cef.tar -o./
           dir
           echo Copy Files to target Folder ("cef_binary_${{ env.cef_version }}/*" to src\cef\)
-          xcopy "cef_binary_${{ env.cef_version }}\*" .\src\cef\ /E /H /Y
+          xcopy /E /H /Y "cef_binary_${{ env.cef_version }}\*" .\src\cef\
           dir src\cef\
 
       - name: Copy overrides to CEF
         run: |
-          xcopy .\src\cef\overrides\* .\src\cef\
+          xcopy /E /H /Y .\src\cef\overrides\* .\src\cef\
           
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.3.2
