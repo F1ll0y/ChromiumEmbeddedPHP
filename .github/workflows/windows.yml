@@ -3,7 +3,7 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
   php_version: 8.3.2-Win32-vs16-x64
-  cef_version: 121.2.14%2Bga44b59f%2Bchromium-121.0.6167.75_windows64_beta
+  cef_version: 121.2.14+ga44b59f+chromium-121.0.6167.75_windows64_beta
 jobs:
   build:
     defaults:
