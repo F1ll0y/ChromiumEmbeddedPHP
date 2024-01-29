@@ -57,16 +57,16 @@ jobs:
           
       - name: Copy CEF lib to target directory
         run: |
-          dir src\
-          copy src\cef\Release\libcef.dll src/
-          copy src\cef\Release\libcef.lib src/
-          dir src\
+          dir .\src\
+          copy .\src\cef\Release\libcef.dll .\src\
+          copy .\src\cef\Release\libcef.lib .\src\
+          dir .\src\
           
       - name: Copy CEF wrapper to target directory
         run: |
-          dir src\
-          copy src\cef\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib src/
-          dir src\
+          dir .\src\
+          copy .\src\cef\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib .\src\
+          dir .\src\
             
       - name: Build app for release
         run: |
