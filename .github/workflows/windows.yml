@@ -33,16 +33,17 @@ jobs:
         with:
           url: "https://cef-builds.spotifycdn.com/cef_binary_${{ env.cef_version }}.tar.bz2"
           target: ./
+          filename: cef.tar.bz2
+          
       - name: Unpack Chromium Embedded Framework (CEF)
         run: |
           dir
           dir src\cef\
-          7z x cef_binary_${{ env.cef_version }}.tar.bz2 -osrc/cef
+          7z x cef.tar.bz2 -osrc/cef
           dir src\cef\
-          
-          
+
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v1.3.2
         with:
           vs-version: '[16.4,16.5)'
             
