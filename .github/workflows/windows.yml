@@ -52,21 +52,21 @@ jobs:
             
       - name: Build CEF wrapper
         run: |
-          cmake -S .\src -B .\src\build
-          msbuild src\build\libcef_dll_wrapper\libcef_dll_wrapper.vcxproj -t:rebuild -property:Configuration=Release
+          cmake -S .\src\cef -B .\src\cef\build
+          msbuild .\src\cef\build\libcef_dll_wrapper\libcef_dll_wrapper.vcxproj -t:rebuild -property:Configuration=Release
           
       - name: Copy CEF lib to target directory
         run: |
-          dir src/
+          dir src\
           copy src\cef\Release\libcef.dll src/
           copy src\cef\Release\libcef.lib src/
-          dir src/
+          dir src\
           
       - name: Copy CEF wrapper to target directory
         run: |
-          dir src/
-          copy src\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib src/
-          dir src/
+          dir src\
+          copy src\cef\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib src/
+          dir src\
             
       - name: Build app for release
         run: |
