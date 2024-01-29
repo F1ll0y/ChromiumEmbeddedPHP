@@ -41,7 +41,10 @@ jobs:
           dir src\cef\
           7z x cef.tar.bz2 -o./
           dir
-          7z x cef.tar -osrc/cef
+          7z x cef.tar -o./
+          dir
+          echo "Copy Files to target Folder"
+          copy "${{ env.cef_version }}/*" src\cef\
           dir src\cef\
 
       - name: Add msbuild to PATH
@@ -49,7 +52,7 @@ jobs:
             
       - name: Build app for release
         run: |
-          msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -verbosity:diag -property:Configuration=Release
+          msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
