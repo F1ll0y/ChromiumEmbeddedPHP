@@ -93,13 +93,20 @@ jobs:
         
       - name: Copy PHP to release folder
         run: |
-          xcopy /E /H /Y .\src\php .\src\Release\
+          xcopy /E /H /Y .\src\php .\src\Release\php
           dir .\src\Release
         
       - name: Copy example PHP files to release folder
         run: |
           xcopy /E /H /Y .\src\www .\src\Release\
           dir .\src\Release
+          
+      - name: Create subfolder and copy files to this place
+        run: |
+          mkdir .\src\Release\php-chrome-embedded
+          xcopy /E /H /Y .\src\Release\* .\src\Release\php-chrome-embedded\
+          dir .\src\Release
+          dir .\src\Release\php-chrome-embedded
           
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
