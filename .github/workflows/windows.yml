@@ -93,12 +93,12 @@ jobs:
         
       - name: Copy PHP to release folder
         run: |
-          xcopy /E /H /Y .\src\php .\src\Release\php
+          xcopy /E /H /Y /I .\src\php .\src\Release\php
           dir .\src\Release
         
       - name: Copy example PHP files to release folder
         run: |
-          xcopy /E /H /Y .\src\www .\src\Release\
+          xcopy /E /H /Y /I .\src\www .\src\Release\www
           dir .\src\Release
           
       - name: Create subfolder and copy files to this place
