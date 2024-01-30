@@ -380,11 +380,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     // Sandbox support
     cef_settings.no_sandbox = true;
 
-    CefInitialize(main_args, cef_settings, app.get(), NULL);
-    CreateMainWindow(hInstance, nCmdShow, main_window_title);
-    CefRunMessageLoop();
-    CefShutdown();
-
+    if (CefInitialize(main_args, cef_settings, app.get(), nullptr)) {
+        CreateMainWindow(hInstance, nCmdShow, main_window_title);
+        CefRunMessageLoop();
+        CefShutdown();
+    }
+    else {
+        PHP_DESKTOP_LOG_ERROR << "could not initialize cef";
+    }
+    
     PHP_DESKTOP_LOG_INFO << "Ended application";
     PHP_DESKTOP_LOG_INFO << "--------------------------------------------------------";
 
