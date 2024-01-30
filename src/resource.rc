@@ -47,8 +47,8 @@ IDR_MAINWINDOW          ICON                    "icon.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 121,0,0,0
- PRODUCTVERSION 121,0,0,0
+ FILEVERSION 121,0,6167,75
+ PRODUCTVERSION 121,0,6167,75
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -65,12 +65,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "PHP Chromium Embedded"
             VALUE "FileDescription", "PHP Chromium Embedded"
-            VALUE "FileVersion", "121.0.0.0"
+            VALUE "FileVersion", "121.0.6167.75"
             VALUE "InternalName", "phpchromiumembedded"
             VALUE "LegalCopyright", "(c) Daniel Neuendorf 2024"
             VALUE "OriginalFilename", "phpchromiumembedded.exe"
             VALUE "ProductName", "PHP Chromium Embedded"
-            VALUE "ProductVersion", "121.0.0.0"
+            VALUE "ProductVersion", "121.0.6167.75"
         END
     END
     BLOCK "VarFileInfo"

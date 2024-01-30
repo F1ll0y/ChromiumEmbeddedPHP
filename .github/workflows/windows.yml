@@ -19,14 +19,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
-      - name: Fetch PHP
-        run: |
-          dir
-          curl -LO https://windows.php.net/downloads/releases/php-${{ env.php_version }}.zip 
-          dir
-          7z x php-${{ env.php_version }}.zip -osrc/php/
-          dir src\php\
           
       - name: Fetch Chromium Embedded Framework (CEF)
         uses: suisei-cn/actions-download-file@818d6b7dc8fe73f2f924b6241f2b1134ca1377d9
@@ -89,6 +81,25 @@ jobs:
         run: |
           msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release -property:Platform=${{matrix.arch}}
           copy .\src\x64\Release\phpdesktop-chrome.exe .\src\Release\
+          
+        
+      - name: Fetch PHP
+        run: |
+          dir
+          curl -LO https://windows.php.net/downloads/releases/php-${{ env.php_version }}.zip 
+          dir
+          7z x php-${{ env.php_version }}.zip -osrc/php/
+          dir src\php\
+        
+      - name: Copy PHP to release folder
+        run: |
+          xcopy /E /H /Y .\src\php .\src\Release\
+          dir .\src\Release
+        
+      - name: Copy example PHP files to release folder
+        run: |
+          xcopy /E /H /Y .\src\www .\src\Release\
+          dir .\src\Release
           
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
