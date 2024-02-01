@@ -262,7 +262,7 @@ void BrowserWindow::SetIconFromSettings() {
             SendMessage(windowHandle_, WM_SETICON, ICON_BIG, (LPARAM)bigIcon);
         } else {
             PHP_DESKTOP_LOG_WARNING << "Setting icon from settings file failed "
-                           "(ICON_BIG)";
+                           "(ICON_BIG) X: " << bigX << ", Y: " << bigX;
         }
         int smallX = GetSystemMetrics(SM_CXSMICON);
         int smallY = GetSystemMetrics(SM_CYSMICON);
@@ -272,7 +272,7 @@ void BrowserWindow::SetIconFromSettings() {
             SendMessage(windowHandle_, WM_SETICON, ICON_SMALL, (LPARAM)smallIcon);
         } else {
             PHP_DESKTOP_LOG_WARNING << "Setting icon from settings file failed "
-                           "(ICON_SMALL)";
+                           "(ICON_SMALL) X: " << smallX << ", Y: " << smallY;
         }
     } else if (IsPopup()) {
         // CEF did not set icon for the popup window, even though the opener
