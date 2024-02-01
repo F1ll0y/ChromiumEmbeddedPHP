@@ -15,18 +15,10 @@ jobs:
           arch: [x64]
     if: ${{ success() || failure() }}
     runs-on: windows-latest
-    name: Windows, PHP v${{matrix.version}}, chrome embedded
+    name: Win ${{matrix.arch}} PHP v${{matrix.version}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
-      - name: Fetch PHP
-        run: |
-          dir
-          curl -LO https://windows.php.net/downloads/releases/php-${{ env.php_version }}.zip 
-          dir
-          7z x php-${{ env.php_version }}.zip -osrc/php/
-          dir src\php\
           
       - name: Fetch Chromium Embedded Framework (CEF)
         uses: suisei-cn/actions-download-file@818d6b7dc8fe73f2f924b6241f2b1134ca1377d9
@@ -53,32 +45,71 @@ jobs:
           
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.3.2
+        with:
+          msbuild-architecture: ${{matrix.arch}}
             
       - name: Build CEF wrapper
         run: |
-          cmake -S .\src\cef -B .\src\cef\build
+          mkdir src\cef\build
+          cmake -S .\src\cef -B .\src\cef\build -DPROJECT_ARCH=x86_64 -DCMAKE_BUILD_TYPE=Release -DUSE_SANDBOX=off
           msbuild .\src\cef\build\libcef_dll_wrapper\libcef_dll_wrapper.vcxproj -t:rebuild -property:Configuration=Release
           
       - name: Copy CEF lib to target directory
         run: |
-          dir .\src\
-          copy .\src\cef\Release\libcef.dll .\src\
-          copy .\src\cef\Release\libcef.lib .\src\
-          dir .\src\
+          mkdir .\src\lib\Release
+          mkdir .\src\Release
+          copy .\src\cef\Release\libcef.dll .\src\Release\
+          copy .\src\cef\Release\chrome_elf.dll .\src\Release\
+          copy .\src\cef\Release\d3dcompiler_47.dll .\src\Release\
+          copy .\src\cef\Release\libEGL.dll .\src\Release\
+          copy .\src\cef\Release\libGLESv2.dll .\src\Release\
+          copy .\src\cef\Release\snapshot_blob.bin .\src\Release\
+          copy .\src\cef\Release\v8_context_snapshot.bin .\src\Release\
+          copy .\src\cef\Release\vk_swiftshader.dll .\src\Release\
+          copy .\src\cef\Release\vk_swiftshader_icd.json .\src\Release\
+          copy .\src\cef\Release\vulkan-1.dll .\src\Release\
+          xcopy /E /H /Y .\src\cef\Resources\* .\src\Release\
+          
+          copy .\src\cef\Release\libcef.lib .\src\lib\Release\
           
       - name: Copy CEF wrapper to target directory
         run: |
-          dir .\src\
-          copy .\src\cef\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib .\src\
-          dir .\src\
+          copy .\src\cef\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib .\src\lib\Release\
             
       - name: Build app for release
         continue-on-error: true
         run: |
-          msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release
-      
+          msbuild src\phpdesktop-chrome.vcxproj -t:rebuild -property:Configuration=Release -property:Platform=${{matrix.arch}}
+          copy .\src\x64\Release\phpdesktop-chrome.exe .\src\Release\
+          
+        
+      - name: Fetch PHP
+        run: |
+          dir
+          curl -LO https://windows.php.net/downloads/releases/php-${{ env.php_version }}.zip 
+          dir
+          7z x php-${{ env.php_version }}.zip -osrc/php/
+          dir src\php\
+        
+      - name: Copy PHP to release folder
+        run: |
+          xcopy /E /H /Y /I .\src\php .\src\Release\php
+          dir .\src\Release
+        
+      - name: Copy example PHP files to release folder
+        run: |
+          xcopy /E /H /Y /I .\src\www .\src\Release\www
+          dir .\src\Release
+          
+      - name: Create subfolder and copy files to this place
+        run: |
+          mkdir .\src\Release\php-chrome-embedded
+          xcopy /E /H /Y .\src\Release\* .\src\Release\php-chrome-embedded\
+          dir .\src\Release
+          dir .\src\Release\php-chrome-embedded
+          
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: php-chromium-embedded-${{matrix.version}}
-          path: ./src
+          path: ./src/Release

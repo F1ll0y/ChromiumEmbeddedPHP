@@ -58,7 +58,8 @@ protected:
         std::map<int, CefRefPtr<JavascriptApi> >::iterator it;
         it = javascriptApiMap_.find(browser->GetIdentifier());
         if (it == javascriptApiMap_.end()) {
-            javascriptApiMap_[browser->GetIdentifier()] = javascriptApi;
+            javascriptApiMap_[browser->GetIdentifier()] = javascriptApi;            
+            PHP_DESKTOP_LOG_DEBUG << "StoreJavascriptApi() added javascriptApi";
         } else {
             PHP_DESKTOP_LOG_ERROR << "StoreJavascriptApi() failed, api already exists";
         }
