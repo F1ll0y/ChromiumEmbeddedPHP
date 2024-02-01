@@ -108,8 +108,14 @@ jobs:
           dir .\src\Release
           dir .\src\Release\php-chrome-embedded
           
-      - name: Upload artifacts
+      - name: Upload full artifact
         uses: actions/upload-artifact@v4
         with:
-          name: php-chromium-embedded-${{matrix.version}}
+          name: php-chromium-embedded-${{matrix.version}}-full
           path: ./src/Release
+          
+      - name: Upload exe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-chromium-embedded-${{matrix.version}}-exe
+          path: ./src/Release/phpdesktop-chrome.exe
