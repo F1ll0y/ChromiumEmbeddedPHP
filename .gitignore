@@ -1,2 +1,5 @@
 cef_binary_*/
 Release*/
+/src/cef/include
+/src/.vs
+/src/x64

@@ -194,7 +194,9 @@
       <AdditionalManifestFiles>DeclareDPIAware.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PreBuildEvent>
-      <Command>copy /y "$(ProjectDir)settings.json" "$(ProjectDir)$(Platform)\$(Configuration)\settings.json" </Command>
+      <Command>copy /y "$(ProjectDir)settings.json" "$(ProjectDir)$(Platform)\$(Configuration)\settings.json" 
+xcopy /E /H "$(ProjectDir)Release\*" "$(ProjectDir)$(Platform)\$(Configuration)\" 
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -278,11 +280,15 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>copy /y "$(ProjectDir)settings.json" "$(ProjectDir)$(Configuration)/settings.json" </Command>
+      <Command>copy /y "$(ProjectDir)settings.json" "$(ProjectDir)$(Platform)\$(Configuration)\settings.json" &amp;&amp; exit 0
+</Command>
     </PreBuildEvent>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>xcopy /E /H /Y $(ProjectDir)Release\* "$(ProjectDir)$(Platform)\$(Configuration)\" &amp;&amp; exit 0</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cef\app.cpp" />
