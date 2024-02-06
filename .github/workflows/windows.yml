@@ -103,19 +103,20 @@ jobs:
           
       - name: Create subfolder and copy files to this place
         run: |
-          mkdir .\src\Release\php-chrome-embedded
-          xcopy /E /H /Y .\src\Release\* .\src\Release\php-chrome-embedded\
-          dir .\src\Release
-          dir .\src\Release\php-chrome-embedded
+          mkdir .\upload\
+          mkdir .\upload\chromium-embedded-php
+          xcopy /E /H /Y .\src\Release\* .\upload\chromium-embedded-php\
+          dir .\upload\
+          dir .\upload\chromium-embedded-php\
           
       - name: Upload full artifact
         uses: actions/upload-artifact@v4
         with:
-          name: php-chromium-embedded-${{matrix.version}}-full
-          path: ./src/Release
+          name: chromium-embedded-php-${{matrix.version}}-full
+          path: ./upload/
           
       - name: Upload exe artifact
         uses: actions/upload-artifact@v4
         with:
-          name: php-chromium-embedded-${{matrix.version}}-exe
-          path: ./src/Release/phpdesktop-chrome.exe
+          name: chromium-embedded-php-${{matrix.version}}-exe
+          path: ./upload/chromium-embedded-php/phpdesktop-chrome.exe
