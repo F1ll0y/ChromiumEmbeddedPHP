@@ -3,7 +3,7 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
   php_version: 8.3.2-Win32-vs16-x64
-  cef_version: 121.2.14+ga44b59f+chromium-121.0.6167.75_windows64_beta
+  cef_version: 121.3.4+g2af7b91+chromium-121.0.6167.139_windows64
 jobs:
   build:
     defaults:
@@ -121,3 +121,11 @@ jobs:
           name: chromium-embedded-php-${{matrix.version}}-full
           path: ./upload/
           
+      
+      - name: Cache compiled CEF libraries
+        id: cache-cef-libs
+        uses: actions/cache@v4
+        with:
+          path: \
+            .\src\Release
+            
