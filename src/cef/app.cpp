@@ -56,8 +56,12 @@ bool App::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
 void App::OnContextCreated(CefRefPtr<CefBrowser> browser,
                             CefRefPtr<CefFrame> frame,
                             CefRefPtr<CefV8Context> context) {
+
     // RENDERER PROCESS.
     PHP_DESKTOP_LOG_DEBUG << "OnContextCreated()";
+    
+    StoreJavascriptApi(browser, new JavascriptApi(browser));
+
     CefRefPtr<CefV8Value> window = context->GetGlobal();
     CefRefPtr<CefV8Handler> handler = GetJavascriptApi(browser);
     if (!handler.get()) {
@@ -91,7 +95,6 @@ void App::OnContextCreated(CefRefPtr<CefBrowser> browser,
 /*--cef()--*/
 void App::OnBrowserCreated(CefRefPtr<CefBrowser> browser) {
     PHP_DESKTOP_LOG_DEBUG << "OnBrowserCreated()";
-    StoreJavascriptApi(browser, new JavascriptApi(browser));
 }
 
 ///

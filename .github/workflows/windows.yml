@@ -109,14 +109,15 @@ jobs:
           dir .\upload\
           dir .\upload\chromium-embedded-php\
           
+      - name: Upload exe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chromium-embedded-php-${{matrix.version}}-exe
+          path: ./upload/chromium-embedded-php/phpdesktop-chrome.exe
+          
       - name: Upload full artifact
         uses: actions/upload-artifact@v4
         with:
           name: chromium-embedded-php-${{matrix.version}}-full
           path: ./upload/
           
-      - name: Upload exe artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: chromium-embedded-php-${{matrix.version}}-exe
-          path: ./upload/chromium-embedded-php/phpdesktop-chrome.exe
