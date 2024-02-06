@@ -55,11 +55,11 @@ BrowserWindow* GetBrowserWindow(HWND hwnd) {
     }
     // GetBrowserWindow() may fail during window creation, so log
     // severity is only DEBUG.
-    PHP_DESKTOP_LOG_DEBUG << "GetBrowserWindow(): not found, hwnd = " << (int)hwnd;
+    PHP_DESKTOP_LOG_DEBUG << "GetBrowserWindow(): not found, hwnd = " << HandleToLong(hwnd);
     return NULL;
 }
 void StoreBrowserWindow(HWND hwnd, BrowserWindow* browser) {
-    PHP_DESKTOP_LOG_DEBUG << "StoreBrowserWindow(): hwnd = " << (int)hwnd;
+    PHP_DESKTOP_LOG_DEBUG << "StoreBrowserWindow(): hwnd = " << HandleToLong(hwnd);
     std::map<HWND, BrowserWindow*>::iterator it;
     it = g_browserWindows.find(hwnd);
     if (it == g_browserWindows.end()) {
@@ -69,7 +69,7 @@ void StoreBrowserWindow(HWND hwnd, BrowserWindow* browser) {
     }
 }
 void RemoveBrowserWindow(HWND hwnd) {
-    PHP_DESKTOP_LOG_DEBUG << "RemoveBrowserWindow(): hwnd = " << (int)hwnd;
+    PHP_DESKTOP_LOG_DEBUG << "RemoveBrowserWindow(): hwnd = " << HandleToLong(hwnd);
     BrowserWindow* browser = GetBrowserWindow(hwnd);
     if (!browser) {
         PHP_DESKTOP_LOG_WARNING << "RemoveBrowserWindow() failed: "
@@ -87,7 +87,7 @@ void RemoveBrowserWindow(HWND hwnd) {
     }
 }
 
-int CountBrowserWindows()
+size_t CountBrowserWindows()
 {
     return g_browserWindows.size();
 }

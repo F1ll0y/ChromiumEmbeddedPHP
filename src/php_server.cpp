@@ -40,6 +40,9 @@ bool StartWebServer() {
     wwwDirectory = GetRealPath(wwwDirectory);
     PHP_DESKTOP_LOG_INFO << "WWW directory: " << wwwDirectory;
 
+    std::string phpRouterScript = (*settings)["web_server"]["php_router_script"];
+    PHP_DESKTOP_LOG_INFO << "PHP router script: " << phpRouterScript;
+
     // PHP executable from settings.
     std::string phpExecutable = (*settings)["web_server"]["php_executable"];
     if (phpExecutable.empty())
@@ -56,6 +59,9 @@ bool StartWebServer() {
     shellParams.append(port);
     shellParams.append(" -t ");
     shellParams.append(wwwDirectory);
+    if (!phpRouterScript.empty()) {
+        shellParams.append(phpRouterScript);
+    }
     PHP_DESKTOP_LOG(logDEBUG) << "PHP shell parameters: " << shellParams;
 
     memset(&g_phpShell, 0, sizeof(g_phpShell));

@@ -17,7 +17,7 @@ class BrowserWindow;
 BrowserWindow* GetBrowserWindow(HWND hwnd);
 void StoreBrowserWindow(HWND hwnd, BrowserWindow* browser);
 void RemoveBrowserWindow(HWND hwnd);
-int CountBrowserWindows();
+size_t CountBrowserWindows();
 
 class BrowserWindow {
 private:

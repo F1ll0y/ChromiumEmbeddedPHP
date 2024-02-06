@@ -16,13 +16,15 @@ json_value* GetApplicationSettings() {
     if (settings_fetched)
         return ret;
     settings_fetched = true;
-    PHP_DESKTOP_LOG_DEBUG << "Fetching settings from settings.json file";
 
     std::string settingsFile = GetExecutableDirectory() + "\\settings.json";
+
+    PHP_DESKTOP_LOG_DEBUG << "Fetching settings from settings.json file(" << settingsFile << ")";
     std::string contents = GetFileContents(settingsFile);
     if (contents.empty()) {
+        // TODO create default settings.json
         PHP_DESKTOP_LOG_WARNING << "Error while opening the settings.json file";
-        g_applicationSettingsError = "Error while opening the Settings file. ";
+        g_applicationSettingsError = "Error while opening the settings file: " + settingsFile;
         return ret;
     }
 
@@ -33,7 +35,7 @@ json_value* GetApplicationSettings() {
                                             &error[0]);
     if (json_parsed == 0) {
         PHP_DESKTOP_LOG_WARNING << "Error while parsing settings.json file: " << error;
-        g_applicationSettingsError = "Error while parsing the Settings file. ";
+        g_applicationSettingsError = "Error while parsing the settings file.";
         return ret;
     }
     ret = json_parsed;

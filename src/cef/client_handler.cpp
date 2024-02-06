@@ -174,7 +174,7 @@ void ClientHandler::OnAfterCreated(CefRefPtr<CefBrowser> cefBrowser) {
 void ClientHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
     REQUIRE_UI_THREAD();
     PHP_DESKTOP_LOG_DEBUG << "OnBeforeClose() hwnd=" 
-              << (int)browser->GetHost()->GetWindowHandle();
+              << HandleToLong(browser->GetHost()->GetWindowHandle());
     RemoveBrowserWindow(browser->GetHost()->GetWindowHandle());
     if (g_browserWindows.empty()) {
         PHP_DESKTOP_LOG_DEBUG << "Calling CefQuitMessageLoop()";

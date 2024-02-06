@@ -299,7 +299,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     const char* single_instance_guid =
             (*appSettings)["application"]["single_instance_guid"];
     if (single_instance_guid && single_instance_guid[0] != 0) {
-        int guidSize = strlen(single_instance_guid) + 1;
+        const int guidSize = static_cast<uint32_t>(strlen(single_instance_guid) + 1);
         g_singleInstanceApplicationGuid = new wchar_t[guidSize];
         Utf8ToWide(single_instance_guid, g_singleInstanceApplicationGuid,
                    guidSize);
